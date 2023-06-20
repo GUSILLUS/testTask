@@ -5,7 +5,7 @@ import { PostComponent } from '../PostComponent/PostComponent';
 import './postList.scss';
 
 type Props = {
-  posts: Post[] | [];
+  posts: Post[];
   onDelete: (postID: number) => void;
 };
 
