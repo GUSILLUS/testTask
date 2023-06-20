@@ -115,7 +115,7 @@ export const Posts: FC = () => {
           placeholder="Write some post...."
           value={text}
           onChange={textChangeHandler}
-          onKeyDown={(e) => onKeyPress(e)}
+          onKeyDown={onKeyPress}
           autoComplete="off"
         />
 

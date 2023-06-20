@@ -15,7 +15,7 @@ export const Username: FC<Props> = ({ onChange, onClick, username }) => (
       id="username"
       placeholder="Please write your username"
       value={username}
-      onChange={(e) => onChange(e)}
+      onChange={onChange}
       className="username__input"
     />
 
