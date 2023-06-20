@@ -1,0 +1,48 @@
+.posts {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  gap: 50px;
+
+  &__error {
+    color: red;
+    font-size: 20px;
+  }
+
+  &__addPost {
+    width: 500px;
+    position: relative;
+    display: flex;
+
+    &-textarea {
+      width: 100%;
+      border: 3px solid #5a2424;
+      font-size: 16px;
+      padding: 10px;
+      height: 125px;
+      outline: none;
+      position: relative;
+      resize: none;
+    }
+
+    &-button {
+      background-color: #5a2424;
+
+      padding: 10px 15px;
+
+      box-shadow: 6px 6px 5px 0px rgba(0,0,0,0.3);
+      outline: none;
+      border: none;
+
+      color: white;
+      font-size: 20px;
+
+      position: absolute;
+      bottom: 2%;
+      right: 0;
+      transform: translate(50%,50%);
+    }
+  }
+}
