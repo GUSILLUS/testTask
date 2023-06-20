@@ -19,7 +19,7 @@ export const Posts: FC<Props> = ({ userName }) => {
   const [text, setText] = useLocalStorage('text', '');
   const [isLoading, setIsLoading] = useState(true);
 
-  const [errorMessage, setErrorMessage] = useState<string | null>();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const deletePostHandler = (postID: number) => {
     setPosts(prevstate => prevstate.filter(el => el.postId !== postID));
