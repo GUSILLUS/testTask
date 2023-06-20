@@ -7,19 +7,19 @@ import { useLocalStorage } from '../../hooks/useLocaleStorage';
 import { Loader } from '../Loader';
 import { PostsList } from '../PostList';
 import { Post } from '../../types/Post';
-import { Username } from '../Username';
-import { idGenarate } from '../../helper/helper';
+import { idGenerate } from '../../helper/helper';
+import { ErrorMessage } from '../ErrorMessage';
 
-export const Posts: FC = () => {
-  const [posts, setPosts] = useState<Post[] | []>([]);
+type Props = {
+  userName: string;
+};
+
+export const Posts: FC<Props> = ({ userName }) => {
+  const [posts, setPosts] = useState<Post[]>([]);
   const [text, setText] = useLocalStorage('text', '');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const [error, setError] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>('');
-
-  const [username, setUserName] = useState('');
-  const [appliedUsername, setAppliedUsername] = useLocalStorage('username', '');
+  const [errorMessage, setErrorMessage] = useState<string | null>();
 
   const deletePostHandler = (postID: number) => {
     setPosts(prevstate => prevstate.filter(el => el.postId !== postID));
@@ -29,19 +29,8 @@ export const Posts: FC = () => {
     setText(e.target.value);
   };
 
-  const usernameHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setUserName(e.target.value);
-  };
-
-  const appliedHandler = () => {
-    if (username) {
-      setAppliedUsername(username);
-    }
-  };
-
   const addPost = () => {
     if (!text) {
-      setError(true);
       setErrorMessage('Please write some text to post it!');
 
       return;
@@ -49,12 +38,12 @@ export const Posts: FC = () => {
 
     const post: Post = {
       user: {
-        username: appliedUsername,
-        id: idGenarate(),
+        username: userName,
+        id: idGenerate(),
       },
-      id: idGenarate(),
+      id: idGenerate(),
       body: text,
-      postId: idGenarate(),
+      postId: idGenerate(),
     };
 
     setPosts(prevState => [...prevState, post]);
@@ -69,41 +58,33 @@ export const Posts: FC = () => {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      setError(false);
-      setErrorMessage('');
+    const timer = setTimeout(() => {
+      setErrorMessage(null);
     }, 3000);
-  }, [error]);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [errorMessage]);
 
   useEffect(() => {
-    setIsLoading(true);
-
     getPosts()
       .then(res => {
         setPosts(res.comments);
       })
+      .catch(res => setErrorMessage(res.message))
       .finally(() => setIsLoading(false));
   }, []);
-
-  if (!appliedUsername) {
-    return (
-      <Username
-        onChange={usernameHandler}
-        onClick={appliedHandler}
-        username={username}
-      />
-    );
-  }
 
   return (
     <div className="posts">
       { isLoading ? (
         <Loader />
       ) : (
-        <PostsList posts={posts} onClick={deletePostHandler} />
+        <PostsList posts={posts} onDelete={deletePostHandler} />
       )}
 
-      {error && <p className="posts__error">{errorMessage}</p>}
+      {errorMessage && <ErrorMessage message={errorMessage} />}
 
       <div className="posts__addPost">
         <textarea
@@ -116,14 +97,13 @@ export const Posts: FC = () => {
           value={text}
           onChange={textChangeHandler}
           onKeyDown={onKeyPress}
-          autoComplete="off"
         />
 
         <button
           type="button"
           className="posts__addPost-button"
           onClick={addPost}
-          disabled={error}
+          disabled={errorMessage !== null}
         >
           Send
         </button>

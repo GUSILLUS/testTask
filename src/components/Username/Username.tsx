@@ -17,6 +17,7 @@ export const Username: FC<Props> = ({ onChange, onClick, username }) => (
       value={username}
       onChange={onChange}
       className="username__input"
+      autoComplete="off"
     />
 
     <button

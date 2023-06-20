@@ -1,0 +1,19 @@
+.errorMessage {
+  position: absolute;
+  top: -10%;
+  right: -70%;
+  width: 300px;
+  height: 100px;
+  border: 3px solid #5a2424;
+  background-color: #feee7f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+
+  &__text {
+    color: red;
+    font-size: 20px;
+    font-weight: bold;
+  }
+}

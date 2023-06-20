@@ -6,15 +6,13 @@ import './postList.scss';
 
 type Props = {
   posts: Post[] | [];
-  onClick: (postID: number) => void;
+  onDelete: (postID: number) => void;
 };
 
-export const PostsList: FC<Props> = ({ posts, onClick }) => (
+export const PostsList: FC<Props> = ({ posts, onDelete }) => (
   <ul className="postsList">
     {posts.map((post: Post) => (
-      <li key={post.id}>
-        <PostComponent post={post} onClick={onClick} />
-      </li>
+      <PostComponent post={post} onDelete={onDelete} key={post.id} />
     ))}
   </ul>
 );
