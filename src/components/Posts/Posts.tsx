@@ -69,12 +69,11 @@ export const Posts: FC = () => {
   };
 
   useEffect(() => {
-    setTimeout(() => setError(false), 3000);
+    setTimeout(() => {
+      setError(false);
+      setErrorMessage('');
+    }, 3000);
   }, [error]);
-
-  useEffect(() => {
-    setTimeout(() => setErrorMessage(''), 3000);
-  }, [errorMessage]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -117,12 +116,14 @@ export const Posts: FC = () => {
           value={text}
           onChange={textChangeHandler}
           onKeyDown={(e) => onKeyPress(e)}
+          autoComplete="off"
         />
 
         <button
           type="button"
           className="posts__addPost-button"
           onClick={addPost}
+          disabled={error}
         >
           Send
         </button>

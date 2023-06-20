@@ -24,7 +24,7 @@ export const PostComponent: FC<Props> = ({ post, onClick }) => {
         type="button"
         onClick={() => onClick(postId)}
       >
-        &#9587;
+        &#10006;
       </button>
     </div>
   );
